@@ -1,34 +1,76 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { JsonDataContext } from '../App.jsx';
-import { dataIsNull } from '../utils.jsx';
 
 export default function StudyReview() {
     const navigate = useNavigate();
     const { jsonData, setDataContext } = useContext(JsonDataContext);
+    const [shuffledData, setShuffledData] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [flipped, setFlipped] = useState(false);
+    const [progress, setProgress] = useState(0);
+
+    const handleShuffle = () => {
+        const newData = jsonData.slice(1).sort(() => Math.random() - 0.5 );
+        setShuffledData(newData);
+        setCurrentIndex(0);
+        setFlipped(false);
+    }
+
     useEffect(() => {
         if (jsonData === null) {
             navigate("/study");
+            return;
         }
-    }, [])
-    
-    if (jsonData === null) {
-        return;
+        
+        handleShuffle();
+    }, [jsonData])
+
+    useEffect(() => {
+        setProgress(((currentIndex + 1) / shuffledData.length) * 100)
+        console.log(currentIndex + 1, shuffledData.length)
+    }, [currentIndex, shuffledData])
+
+    if (!jsonData || !shuffledData.length) {
+        return null;
     }
 
+    const handlePrev = () => {
+        if (currentIndex > 0) {
+            setCurrentIndex(currentIndex - 1)
+            setFlipped(false);
+        }
+    }
+    const handleNext = () => {
+        if (currentIndex < shuffledData.length - 1) {
+            setCurrentIndex(currentIndex + 1)
+            setFlipped(false);
+        }
+    }
+    const handleFlip = () => {
+        setFlipped(!flipped);
+    }
     return (
-        <div>
-            {jsonData.map((el, index) => {
-                if (index) {
-                    return (
-                        <>
-                            <h1>{el.term}:</h1>
-                            <p>{el.definition}</p>
-                        </>
-                    );
+        <div className="flex flex-col items-center p-7 h-screen">
+            <div className="flex justify-around w-1/2 mb-7">
+                <button className="btn" onClick={() => handlePrev()}>Prev</button>
+                <button className="btn" onClick={() => handleShuffle()}>Shuffle</button>
+                <button className="btn" onClick={() => handleNext()}>Next</button>
+            </div>
+            <div className={`w-2/3 md:w-1/2 p-5 rounded-t-xl transition-all ${flipped ? "bg-blue-700" : "bg-stone-600 rotate-y-180"}`}>
+                <h1 className={`text-white text-center font-bold transition-all ${flipped ? "" : "rotate-y-180"}`}>Item {currentIndex + 1}</h1>
+            </div>
+            <div className={`flex items-center justify-center w-2/3 md:w-1/2 h-3/4 p-7 rounded-b-xl transition-all ${flipped ? "bg-stone-600" : "bg-blue-700 rotate-y-180"}`}
+                onClick={() => handleFlip()}>
+                {
+                    flipped ?
+                      <h1 className={flipped ? "font-bold text-white text-3xl transition-all" : "font-strong text-transparent"}>{shuffledData[currentIndex].term}</h1>
+                    : <p className="font-bold text-blue-100 rotate-y-180 transition-all">{shuffledData[currentIndex].definition}</p>
                 }
-            }
-            )}
+            </div>
+            <div className="w-3/4 bg-gray-700 rounded-full h-2.5 m-5">
+                <div className="bg-blue-600 h-2.5 rounded-full transition-all" style={{"width": `${progress}%`}}>{progress}</div>
+            </div>
         </div>
     );
 }

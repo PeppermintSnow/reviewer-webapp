@@ -13,7 +13,7 @@ export default function App() {
     const [jsonData, setJsonData] = useState(null);
     return (
         <JsonDataContext.Provider value={{jsonData, setJsonData}}>
-            <BrowserRouter>
+            <BrowserRouter basename="/reviewer-webapp">
                 <Routes>
                     <Route path="/" element={<Layout />}>
                         <Route index element={<Home />} />

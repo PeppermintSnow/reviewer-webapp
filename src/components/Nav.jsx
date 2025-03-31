@@ -6,7 +6,7 @@ import Logo from '../assets/logo.png'
 
 const navigation = [
   { name: 'Home', href: '/', current: false },
-  { name: 'About', href: '/about', current: false },
+  { name: 'About', href: '#', current: false },
   { name: 'Create', href: '/create', current: false },
   { name: 'Study', href: '/study', current: false },
 ]

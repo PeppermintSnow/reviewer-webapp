@@ -69,9 +69,12 @@ export default function Study() {
     }
     return (
         <div className="flex flex-col items-center justify-center m-5 p-5">
+            <p className="mb-3 font-bold text-white">Upload a learning set</p>
             <input type="file" id="file-input" className="hidden" accept="application/json" onChange={() => handleChange()}/>
             <button className="btn" onClick={() => handleUpload()}> Upload
             </button>
+            <p className="m-3 font-bold text-blue-500 text-3xl">Or...</p>
+            <p className="font-bold text-white">Use an existing learning set</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full m-5">
             {listData.map((item, index) => {
                 return (

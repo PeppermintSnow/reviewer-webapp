@@ -6,6 +6,7 @@ import Study from './pages/Study.jsx';
 import StudyOverview from './pages/StudyOverview.jsx';
 import StudyReview from './pages/StudyReview.jsx';
 import Create from './pages/Create.jsx';
+import ReviewFinishMenu from './components/ReviewFinishMenu.jsx';
 
 export const JsonDataContext = createContext(null);
 
@@ -20,7 +21,9 @@ export default function App() {
                         <Route path="create" element={<Create />} />
                         <Route path="study" element={<Study />} />
                         <Route path="study/:url" element={<StudyOverview />} />
-                        <Route path="study/:url/review" element={<StudyReview />} />
+                        <Route path="study/:url/review" element={<StudyReview />}>
+                            <Route path="finish" element={<ReviewFinishMenu />} />
+                        </Route>
                     </Route>
                 </Routes>
             </BrowserRouter>

@@ -20,7 +20,10 @@ export default function StudyOverview() {
     return (
         <div className="m-5">
             <div className="flex flex-col p-5 bg-stone-700 rounded-xl">
-            <p className="text-center font-bold text-blue-200 text-xs mb-5">{url}</p>
+                <div className="flex flex-around w-full">
+                    <Link to="/study" className="btn -mt-3 mb-2">Back</Link>
+                    <p className="text-center font-bold text-blue-200 text-xs mb-5 mx-auto">{url}</p>
+                </div>
             {jsonData.map((el, index) => {
                 if (index) {
                     return (
@@ -41,7 +44,7 @@ export default function StudyOverview() {
                                 <p className="text-blue-200 font-bold ">by {el.author}</p>
                                 <div className="my-5 flex gap-3">
                                     <Link to="review" className="btn">Review</Link>
-                                    <Link to="assess" className="btn">Assess</Link>
+                                    <Link to="#" className="btn">Assess</Link>
                                 </div>
                             </div>
                         </div>
